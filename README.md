@@ -1,76 +1,81 @@
-# 🚀 QuickStart
+⚡ QUICKSTART — A Minimal Python Dev Scaffold
 
-[![CI](https://github.com/Ruh-Al-Tarikh/quickstart/actions/workflows/ci.yml/badge.svg)](https://github.com/Ruh-Al-Tarikh/quickstart/actions/workflows/ci.yml)
-[![Python](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+Minimal. Structured. Ready to ship.
 
-A minimal, developer-friendly **Python starter template** for building **Prefect workflows**, **CLI tools**, or **reusable libraries** — fast.
+QuickStart is a clean, developer-first Python foundation designed to help you build workflows, CLI tools, or reusable libraries without wasting time on setup. It strips away unnecessary complexity and gives you a structured, production-ready starting point that scales from experiments to real-world systems. Whether you're orchestrating automation pipelines, crafting internal tools, or learning modern Python architecture, this template keeps things focused, modular, and efficient.
 
-Perfect for automation, orchestration, experiments, and learning without boilerplate overload.
++ Build Prefect workflows
++ Create powerful CLI tools
++ Develop reusable Python libraries
 
----
+At its core, QuickStart follows a simple philosophy: reduce noise, maximize clarity, and keep everything composable. Every file has a purpose, every module is reusable, and the entire layout encourages clean separation between logic, interfaces, and execution layers. This makes it ideal for developers who want speed without sacrificing maintainability.
 
-## ✨ What This Template Is For
+Setup:
 
-This repo is designed to be flexible. You can use it as:
+git clone <your-repo-url>
+cd quickstart
+python -m venv .venv
+source .venv/bin/activate  (Windows: .venv\Scripts\activate)
+pip install -r requirements.txt
+quickstart run
 
-- 🧭 **Prefect automation project** (flows, tasks, deployments)
-- 🖥️ **CLI tool** (`quickstart run`, `quickstart deploy`, etc.)
-- 📦 **Python library** (importable, testable, publishable)
+Project Structure:
 
----
-
-## 📚 Table of Contents
-
-- [About](#about)
-- [Project Layout](#project-layout)
-- [Prerequisites](#prerequisites)
-- [Quick Start](#quick-start)
-- [Usage](#usage)
-- [Prefect Workflows](#prefect-workflows)
-- [CLI Usage](#cli-usage)
-- [Development](#development)
-- [Testing](#testing)
-- [Linting & Formatting](#linting--formatting)
-- [Packaging & Publishing](#packaging--publishing)
-- [Continuous Integration](#continuous-integration)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
-
----
-
-## About
-
-**QuickStart** is a clean Python starter project that includes:
-
-- Virtual environments
-- Editable installs
-- Prefect-ready structure
-- CLI entry points
-- Testing, linting, formatting
-- Packaging & CI support
-
-Use it to bootstrap:
-- Prefect automation pipelines
-- Internal developer tools
-- Lightweight Python services
-- Learning or prototyping projects
-
----
-
-## Project Layout
-
-```text
 quickstart/
-├─ quickstart/
-│  ├─ __init__.py
-│  ├─ flows.py        # Prefect flows
-│  ├─ tasks.py        # Prefect tasks
-│  ├─ cli.py          # CLI entry point
-│  └─ core.py         # Shared library logic
-├─ tests/
-├─ pyproject.toml
-├─ requirements.txt
-├─ requirements-dev.txt
-└─ README.md
+├── quickstart/
+│   ├── __init__.py
+│   ├── core.py
+│   ├── flows.py
+│   ├── tasks.py
+│   └── cli.py
+├── tests/
+├── pyproject.toml
+├── requirements.txt
+├── requirements-dev.txt
+└── README.md
+
+Commands:
+
+quickstart run
+quickstart deploy
+quickstart test
+
+Development:
+
+pytest
+black .
+ruff check .
+mypy .
+
+Prefect Example:
+
+from prefect import flow, task
+
+@task
+def step():
+    return "processed"
+
+@flow
+def pipeline():
+    return step()
+
+Run:
+
+python -m quickstart.flows
+
+Packaging:
+
+pip install -e .
+
+✔ tests
+✔ linting
+✔ formatting
+✔ build checks
+
+Workflow:
+
+fork → branch → commit → pull request → merge
+
+MIT License
+
+This is not just a template — it's a disciplined starting point for building real systems.
