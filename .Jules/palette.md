@@ -1,3 +1,7 @@
 ## 2025-05-15 - [Naming Conventions vs. Packaging Requirements]
 **Learning:** In projects using numbered prefixes for demo scripts (e.g., `01_script.py`), these files cannot be used directly as console script entry points in `pyproject.toml` because they are not valid Python module names. Attempting to "fix" this by renaming the files may break established naming conventions and user expectations.
 **Action:** Prefer maintaining existing naming conventions over forcing script entry points. If a demo script needs to be an entry point, create a separate wrapper module with a valid name rather than renaming the numbered file.
+
+## 2025-05-20 - [Prefect Flow UI/UX Improvements]
+**Learning:** In Prefect workflows, the `@flow` docstring is rendered as Markdown in the Prefect UI, providing a critical "invisible" UX win by documenting the flow's purpose and features directly in the interface. Combining this with `log_prints=True` ensures standard feedback is captured, enhancing the observability of the flow.
+**Action:** Always include a descriptive Markdown docstring and set `log_prints=True` in Prefect flows to maximize their accessibility and transparency in the UI.
