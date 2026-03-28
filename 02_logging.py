@@ -23,7 +23,7 @@ def process_customer(customer_id: str) -> str:
 
 
 @flow(log_prints=True)
-def main() -> list[str]:
+def main():
     """
     ### 📊 Logging with Prefect
 

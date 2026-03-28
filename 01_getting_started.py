@@ -19,7 +19,7 @@ def process_customer(customer_id: str) -> str:
 
 
 @flow(log_prints=True)
-def main() -> list[str]:
+def main():
     """
     ### 🚀 Getting Started with Prefect
     This flow demonstrates how to map a task over a list of inputs.
