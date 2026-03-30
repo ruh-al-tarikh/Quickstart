@@ -11,7 +11,7 @@ console = Console()
 @task
 def get_customer_ids() -> list[str]:
     # Fetch customer IDs from a database or API
-    return [f"customer{n}" for n in random.choices(range(100), k=50)]
+    return [f"customer{n}" for n in random.choices(range(100), k=5)]
 
 
 @task
@@ -36,13 +36,16 @@ def main():
     - Use the Prefect logger for structured logging in tasks.
     - Map tasks across a list of inputs.
     """
-    customer_ids = get_customer_ids()
+    with console.status("[bold green]Fetching customer data..."):
+        customer_ids = get_customer_ids()
+
     # Map the process_customer task across all customer IDs
     console.print(f"[bold blue]📦 Fetched {len(customer_ids)} customer IDs[/bold blue]")
 
     with console.status("[bold green]Processing customers with logging..."):
         results = process_customer.map(customer_ids)
 
+    console.print()
     console.print(
         Panel.fit(
             f"[bold green]✅ Successfully processed {len(results)} customers with detailed logging![/bold green]",
