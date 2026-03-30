@@ -10,7 +10,7 @@ console = Console()
 @task
 def get_customer_ids() -> list[str]:
     # Fetch customer IDs from a database or API
-    return [f"customer{n}" for n in random.choices(range(100), k=50)]
+    return [f"customer{n}" for n in random.choices(range(100), k=5)]
 
 
 @task
@@ -26,13 +26,16 @@ def main():
     This flow demonstrates how to map a task over a list of inputs.
     It fetches a list of customer IDs and processes each one individually.
     """
-    customer_ids = get_customer_ids()
+    with console.status("[bold green]Fetching customer data..."):
+        customer_ids = get_customer_ids()
+
     # Map the process_customer task across all customer IDs
     console.print(f"[bold blue]📦 Fetched {len(customer_ids)} customer IDs[/bold blue]")
 
     with console.status("[bold green]Processing customers..."):
         results = process_customer.map(customer_ids)
 
+    console.print()
     console.print(
         Panel.fit(
             f"[bold green]✅ Successfully processed {len(results)} customers![/bold green]",
