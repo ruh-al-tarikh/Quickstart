@@ -13,3 +13,7 @@
 ## 2026-03-31 - [Visual Polish for CLI Summaries]
 **Learning:** In CLI-based workflow scaffolds, replacing raw success messages with structured `rich.table.Table` summaries significantly improves the professional feel and readability of the output. Additionally, zero-padding generated IDs (e.g., 'customer-01') ensures natural sorting and vertical alignment, which reduces cognitive load when scanning lists. Finally, adding minimal artificial delays (e.g., `time.sleep(0.1)`) in demo scripts makes the "work" visible by giving terminal spinners and status indicators enough time to register with the user.
 **Action:** Use structured tables for final execution summaries, ensure all generated IDs are zero-padded for alignment, and include brief pacing pauses in demo tasks to make the execution flow more perceptible.
+
+## 2026-04-01 - [CLI Onboarding & Information Density]
+**Learning:** For terminal-based workflow scaffolds, rendering the flow's docstring as a 'Prefect Workflow Guide' using `rich.Markdown` inside a `rich.Panel` provides immediate, high-quality context to the user. Additionally, adding footers to summary tables (e.g., total items processed) improves information density and allows users to verify outcomes at a glance.
+**Action:** Incorporate a Markdown-rendered welcome panel at the start of main entry points and include summary footers in result tables to enhance clarity and professional feel.

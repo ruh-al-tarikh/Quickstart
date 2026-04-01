@@ -3,6 +3,7 @@ from prefect.logging import get_run_logger
 import random
 import time
 from rich.console import Console
+from rich.markdown import Markdown
 from rich.panel import Panel
 from rich.rule import Rule
 from rich.table import Table
@@ -42,36 +43,55 @@ def main():
     - Use the Prefect logger for structured logging in tasks.
     - Map tasks across a list of inputs.
     """
-    with console.status("[bold green]Fetching customer data..."):
+    # Display the flow's purpose for a guided onboarding experience
+    if main.__doc__:
+        console.print(
+            Panel(
+                Markdown(main.__doc__.strip()),
+                title="Prefect Workflow Guide",
+                border_style="blue",
+                padding=(1, 2),
+            )
+        )
+
+    console.print()
+
+    with console.status("[bold green]🔍 Fetching customer data..."):
         customer_ids = get_customer_ids()
 
-    console.print(f"[bold blue]📦 Fetched {len(customer_ids)} customer IDs[/bold blue]")
+    console.print(
+        f"[bold blue]📦 Successfully fetched {len(customer_ids)} customer IDs[/bold blue]"
+    )
+    console.print()
 
-    with console.status("[bold green]Processing customers with logging..."):
+    with console.status("[bold green]⚙️ Processing customers with logging..."):
         futures = process_customer.map(customer_ids)
         # Explicitly wait for results to avoid AttributeErrors on futures
         results = [f.result() for f in futures]
 
     # Display results in a clean table for better readability
     table = Table(
-        title="Processing Summary", show_header=True, header_style="bold blue"
+        title="Processing Summary",
+        show_header=True,
+        header_style="bold blue",
+        show_footer=True,
     )
-    table.add_column("Customer ID", style="cyan")
-    table.add_column("Status", style="green")
+    table.add_column("Customer ID", style="cyan", footer="Total")
+    table.add_column(
+        "Status", style="green", footer=f"[bold]{len(results)} Processed[/bold]"
+    )
 
-    for res in results:
-        # Extract the customer ID from the result string (e.g., "Processed customer-01")
-        customer_id = res.split()[-1]
+    # Use zip to map results back to their original IDs more reliably
+    for customer_id, res in zip(customer_ids, results):
         table.add_row(customer_id, "✅ Success")
 
-    console.print()
     console.print(table)
     console.print()
 
     console.print(
         Panel.fit(
-            f"[bold green]✅ Successfully processed {len(results)} customers with detailed logging![/bold green]",
-            title="Success",
+            f"[bold green]✨ Successfully processed {len(results)} customers with detailed logging![/bold green]",
+            title="Result",
             border_style="green",
         )
     )
