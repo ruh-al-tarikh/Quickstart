@@ -7,6 +7,7 @@ from rich.markdown import Markdown
 from rich.panel import Panel
 from rich.rule import Rule
 from rich.table import Table
+from rich import box
 
 console = Console()
 
@@ -82,6 +83,7 @@ def main():
         show_header=True,
         header_style="bold blue",
         show_footer=True,
+        box=box.ROUNDED,
     )
     table.add_column("Customer ID", style="cyan", footer="Total")
     table.add_column(
@@ -105,7 +107,7 @@ def main():
 
     console.print(Rule("Finishing Up", style="blue"))
     console.print(
-        "[bold blue]🎉 You've completed the Quickstart! Check out the [cyan]README.md[/cyan] for more features.[/bold blue]"
+        "[blue]🎉 You've completed the Quickstart! Check out the [cyan]README.md[/cyan] for more features.[/blue]"
     )
 
     return results
