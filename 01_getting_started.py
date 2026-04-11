@@ -15,6 +15,8 @@ console = Console()
 def get_customer_ids() -> list[str]:
     """Fetch customer IDs from a database or API."""
     # Use sorted and zero-padded IDs for better terminal alignment
+    # Using random.sample ensures unique IDs for a more realistic demo
+    ids = [f"customer-{n:02d}" for n in random.sample(range(100), k=5)]
     # Use random.sample to ensure unique customer IDs in the demo
     ids = [f"customer-{n:02d}" for n in random.sample(range(100), k=5)]
     # Add a brief pause to make the fetching state visible in the UI
