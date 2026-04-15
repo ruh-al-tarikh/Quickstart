@@ -12,7 +12,7 @@ from rich.table import Table
 console = Console()
 
 
-@task
+@task(name="Fetch Customer IDs")
 def get_customer_ids() -> list[str]:
     """Fetch customer IDs from a database or API."""
     # Use sorted and zero-padded IDs for better terminal alignment
@@ -21,7 +21,7 @@ def get_customer_ids() -> list[str]:
     return sorted(ids)
 
 
-@task
+@task(name="Process Customer", task_run_name="Process {customer_id}")
 def process_customer(customer_id: str) -> str:
     """Process a single customer."""
     logger = get_run_logger()
@@ -32,7 +32,7 @@ def process_customer(customer_id: str) -> str:
     return f"Processed {customer_id}"
 
 
-@flow(log_prints=True)
+@flow(name="Logging Demo Flow", log_prints=True)
 def main():
     """
     ### 📊 Logging with Prefect
@@ -92,7 +92,7 @@ def main():
     table.add_column(
         "Status",
         style="green",
-        footer=f"{len(results)} Processed",
+        footer=f"✅ {len(results)} Processed",
         footer_style="bold",
     )
 
@@ -106,8 +106,8 @@ def main():
     console.print(
         Panel.fit(
             f"[bold green]✨ Successfully processed {len(results)} customers with detailed logging in {duration:.2f}s![/bold green]",
-            title="Result",
-            border_style="green",
+            title="📊 Workflow Results",
+            border_style="bold blue",
         )
     )
 
