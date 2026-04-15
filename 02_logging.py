@@ -12,6 +12,7 @@ from rich.table import Table
 console = Console()
 
 
+@task(name="Fetch Customers")
 @task(name="Fetch Customer IDs")
 def get_customer_ids() -> list[str]:
     """Fetch customer IDs from a database or API."""
@@ -21,6 +22,7 @@ def get_customer_ids() -> list[str]:
     return sorted(ids)
 
 
+@task(name="Process Customer", task_run_name="Processing {customer_id}")
 @task(name="Process Customer", task_run_name="Process {customer_id}")
 def process_customer(customer_id: str) -> str:
     """Process a single customer."""
@@ -32,6 +34,7 @@ def process_customer(customer_id: str) -> str:
     return f"Processed {customer_id}"
 
 
+@flow(name="Logging Guide", log_prints=True)
 @flow(name="Logging Demo Flow", log_prints=True)
 def main():
     """
@@ -65,7 +68,7 @@ def main():
         customer_ids = get_customer_ids()
 
     console.print(
-        f"[bold blue]📦 Successfully fetched {len(customer_ids)} customer IDs[/bold blue]"
+        f"[bold blue]📦 Successfully fetched [bold cyan]{len(customer_ids)}[/bold cyan] customer IDs[/bold blue]"
     )
     console.print()
 
@@ -106,6 +109,7 @@ def main():
     console.print(
         Panel.fit(
             f"[bold green]✨ Successfully processed {len(results)} customers with detailed logging in {duration:.2f}s![/bold green]",
+            title="📊 Result",
             title="📊 Workflow Results",
             border_style="bold blue",
         )
