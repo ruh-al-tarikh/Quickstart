@@ -35,3 +35,7 @@
 ## 2026-04-04 - [Consistent Visual Hierarchy and Accessibility in CLI]
 **Learning:** Using 'bold blue' for all structural components (Panels, Rules, and instructional text) creates a strong, consistent visual hierarchy and improves accessibility by ensuring sufficient contrast. Applying `footer_style="bold"` in `rich.table.Table` definitions instead of inline markup maintains cleaner code and consistent visual weight for summary data.
 **Action:** Standardize on `bold blue` for CLI structural elements and use explicit `footer_style` properties in tables to ensure high-contrast, professional-grade terminal interfaces.
+
+## 2026-04-14 - [Orchestration Observability & Terminal Scanability]
+**Learning:** For orchestrated workflows, UX extends beyond the terminal into the dashboard. Adding human-readable `name` and dynamic `task_run_name` (using variable interpolation) provides critical granular traceability. In the terminal, wrapping key metrics in `[bold cyan]` significantly improves scanability by making data stand out from structural text.
+**Action:** Always provide descriptive flow/task names and use dynamic task run names for mapped operations. Highlight metrics in terminal output to separate data from structure.
