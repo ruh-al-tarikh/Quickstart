@@ -1,4 +1,5 @@
 from prefect import flow, task
+from prefect.runtime import flow_run
 import random
 import time
 from rich import box
@@ -38,6 +39,9 @@ def main():
     """
     # Start timer to measure total execution duration
     start_time = time.perf_counter()
+    # Capture flow run metadata for the final summary
+    run_name = flow_run.name
+    ui_url = flow_run.ui_url
 
     # Display the flow's purpose for a guided onboarding experience
     if main.__doc__:
@@ -95,10 +99,14 @@ def main():
     console.print(table)
     console.print()
 
+    result_message = f"[bold green]Successfully processed [bold cyan]{len(results)}[/bold cyan] customers in [bold cyan]{duration:.2f}s[/bold cyan]![/bold green]"
+    if ui_url:
+        result_message += f"\n\n[bold blue]🔗 View in Dashboard:[/bold blue] [cyan]{ui_url}[/cyan]"
+
     console.print(
         Panel.fit(
-            f"[bold green]Successfully processed [bold cyan]{len(results)}[/bold cyan] customers in [bold cyan]{duration:.2f}s[/bold cyan]![/bold green]",
-            title="✨ Result",
+            result_message,
+            title=f"✨ Result: [bold cyan]{run_name}[/bold cyan]",
             border_style="bold blue",
         )
     )

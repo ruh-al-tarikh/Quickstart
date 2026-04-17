@@ -43,3 +43,7 @@
 ## 2026-04-16 - [Cohesive Branding in CLI and Dashboards]
 **Learning:** For tool-sets with both a CLI and a web-based dashboard (like Prefect), maintaining a consistent "brand" (e.g., specific color schemes like 'bold blue' and emoji usage) across both interfaces creates a more unified and professional user experience. Standardizing the "Result" panel and task naming conventions makes the entire system feel like a single, cohesive product.
 **Action:** Apply consistent branding (colors, titles, emojis) to both terminal output and dashboard metadata to ensure a unified user experience across all interfaces.
+
+## 2026-04-17 - [Bridging CLI and Web Dashboards]
+**Learning:** For CLI tools that interface with a web dashboard (like Prefect), providing a direct 'View in Dashboard' link in the terminal significantly reduces user friction and encourages deeper engagement with the tool's full feature set. However, in Prefect, this metadata (like `flow_run.name` and `flow_run.ui_url`) must be captured *inside* the flow's execution context, as the context is cleared once the flow returns.
+**Action:** Always capture and display actionable dashboard links in CLI summaries, ensuring metadata is retrieved while the execution context is active.
