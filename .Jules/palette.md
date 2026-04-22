@@ -43,3 +43,7 @@
 ## 2026-04-16 - [Cohesive Branding in CLI and Dashboards]
 **Learning:** For tool-sets with both a CLI and a web-based dashboard (like Prefect), maintaining a consistent "brand" (e.g., specific color schemes like 'bold blue' and emoji usage) across both interfaces creates a more unified and professional user experience. Standardizing the "Result" panel and task naming conventions makes the entire system feel like a single, cohesive product.
 **Action:** Apply consistent branding (colors, titles, emojis) to both terminal output and dashboard metadata to ensure a unified user experience across all interfaces.
+
+## 2026-04-22 - [Post-Flow Summary for CLI Clarity]
+**Learning:** In terminal-based orchestration scaffolds, printing final result summaries and "Next Step" guidance *after* the flow has completed (outside the `@flow` function) ensures that these critical onboarding elements are the absolute final output. This prevents them from being buried or interleaved with infrastructure logs like "Stopping temporary server" or heartbeat errors.
+**Action:** Always move presentational summary logic and onboarding instructions into the `if __name__ == "__main__":` block, after the flow execution has returned.

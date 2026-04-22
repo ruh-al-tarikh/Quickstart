@@ -5,7 +5,6 @@ from rich import box
 from rich.console import Console
 from rich.markdown import Markdown
 from rich.panel import Panel
-from rich.rule import Rule
 from rich.table import Table
 
 console = Console()
@@ -29,16 +28,13 @@ def process_customer(customer_id: str) -> str:
 
 
 @flow(name="Getting Started Workflow", log_prints=True)
-def main():
+def main() -> tuple[list[str], list[str]]:
     """
     ### 🚀 Getting Started with Prefect
 
     This flow demonstrates how to map a task over a list of inputs.
     It fetches a list of customer IDs and processes each one individually.
     """
-    # Start timer to measure total execution duration
-    start_time = time.perf_counter()
-
     # Display the flow's purpose for a guided onboarding experience
     if main.__doc__:
         console.print(
@@ -65,52 +61,71 @@ def main():
         # Explicitly wait for results to avoid AttributeErrors on futures
         results = [f.result() for f in futures]
 
-    # Calculate duration
-    duration = time.perf_counter() - start_time
-
-    # Add visual breathing room before results
-    console.print()
-
-    # Display results in a clean table for better readability
-    table = Table(
-        title="Processing Summary",
-        title_style="bold blue",
-        show_header=True,
-        header_style="bold blue",
-        show_footer=True,
-        box=box.ROUNDED,
-    )
-    table.add_column("Customer ID", style="cyan", footer="Total", footer_style="bold")
-    table.add_column(
-        "Status",
-        style="green",
-        footer=f"{len(results)} Processed ✅",
-        footer_style="bold blue",
-    )
-
-    # Use zip to map results back to their original IDs more reliably
-    for customer_id, res in zip(customer_ids, results):
-        table.add_row(customer_id, "✅ Success")
-
-    console.print(table)
-    console.print()
-
-    console.print(
-        Panel.fit(
-            f"[bold green]Successfully processed [bold cyan]{len(results)}[/bold cyan] customers in [bold cyan]{duration:.2f}s[/bold cyan]![/bold green]",
-            title="✨ Result",
-            border_style="bold blue",
-        )
-    )
-
-    console.print()
-    console.print(Rule("🚀 Next Step", style="bold blue"))
-    console.print(
-        "[bold blue]➡️[/bold blue] [bold blue]Try running[/bold blue] [cyan]python 02_logging.py[/cyan] [bold blue]to learn about logging in Prefect![/bold blue]"
-    )
-
-    return results
+    return customer_ids, results
 
 
 if __name__ == "__main__":
-    main()
+    # Initialize variables to avoid UnboundLocalError
+    customer_ids: list[str] = []
+    results: list[str] = []
+
+    # Start timer to measure total flow execution duration
+    start_time = time.perf_counter()
+
+    try:
+        # Run the flow
+        customer_ids, results = main()
+    except Exception as e:
+        console.print(f"\n[bold red]❌ Flow failed with error:[/bold red] {e}")
+        raise
+
+    # Calculate duration
+    duration = time.perf_counter() - start_time
+
+    # Add visual breathing room before results to ensure they appear after all flow logs
+    console.print()
+
+    if customer_ids and results:
+        # Display results in a clean table for better readability
+        table = Table(
+            title="Processing Summary",
+            title_style="bold blue",
+            show_header=True,
+            header_style="bold blue",
+            show_footer=True,
+            box=box.ROUNDED,
+        )
+        table.add_column(
+            "Customer ID", style="cyan", footer="Total", footer_style="bold"
+        )
+        table.add_column(
+            "Status",
+            style="green",
+            footer=f"{len(results)} Processed ✅",
+            footer_style="bold blue",
+        )
+
+        # Use zip to map results back to their original IDs more reliably
+        for customer_id, res in zip(customer_ids, results):
+            table.add_row(customer_id, "✅ Success")
+
+        console.print(table)
+        console.print()
+
+        console.print(
+            Panel.fit(
+                f"[bold green]Successfully processed [bold cyan]{len(results)}[/bold cyan] customers in [bold cyan]{duration:.2f}s[/bold cyan]![/bold green]",
+                title="✨ Result",
+                border_style="bold blue",
+            )
+        )
+
+    console.print()
+    console.print(
+        Panel(
+            "[bold blue]➡️ Try running[/bold blue] [cyan]python 02_logging.py[/cyan] [bold blue]to learn about logging in Prefect![/bold blue]",
+            title="🚀 Next Step",
+            border_style="bold blue",
+        )
+    )
+    console.print()
